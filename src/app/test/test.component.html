@@ -1,32 +1,38 @@
+<div class="main-div">
+  <mat-card class="center">
+    <div *ngIf="!hasEdit">
+      <mat-list role="list" style="text-align: center;">
+        <mat-list-item role="listitem" *ngFor="let people of peoples">
+          <p dir="rtl">{{people.name}}</p>
+        </mat-list-item>
+      </mat-list>
+      <button mat-raised-button (click)=onEdit() color="primary">Edit</button>
+    </div>
 
-<button mat-button (click) = onEdit()>Edit</button>
+    <div *ngIf="hasEdit" style="text-align: center;">
+      <form [formGroup]="peopleForm" (ngSubmit)="onSubmit()">
 
-<div *ngIf = "!hasEdit">
-    <ul>
-        <li *ngFor = "let people of peoples">
-          {{people.name}}
-        </li>
-      </ul>
-</div>
 
-<div *ngIf = "hasEdit">
-    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
- 
-      
-        <div formArrayName="aliases">
-          <h3>Aliases</h3> <button (click)="addAlias()">Add Alias</button>
-      
-          <div *ngFor="let address of aliases.controls; let i=index">
-            <!-- The repeated alias template -->
-            <label>
-              Alias:
-              <input type="text" [formControlName]="i">
-            </label>
+        <div formArrayName="items" *ngFor="let item of peopleForm.get('items').controls; let i = index;">
+          <div [formGroupName]="i">
+
+            <mat-form-field class="example-full-width">
+              <input matInput dir="rtl" formControlName="name">
+            </mat-form-field>
+
+            <span>
+
+              <a href="javascript:void(0);" (click)="onRemove(i)">
+                <mat-icon svgIcon="thumbs-up"></mat-icon>
+              </a></span>
           </div>
-        </div>
-      
-        <button type="submit" [disabled]="!profileForm.valid">Submit</button>
-      </form>
-    
-</div>
 
+        </div>
+        <button mat-raised-button (click)="onUpdate()" color="accent"> Update</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button mat-raised-button (click)="onCancel()" color="warn"> Cancel</button>
+      </form>
+
+    </div>
+  </mat-card>
+
+</div>

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { People } from './people';
 import { Observable, of } from 'rxjs';
 import { PEOPLES } from './mock-people';
-// const people = ["Jay Leno","Craig Ferguson","Conan O'Brien","David Letterman"]
 @Injectable({
   providedIn: 'root'
 })
@@ -13,4 +12,20 @@ export class TestService {
   getList(): Observable<People[]> {
     return of(PEOPLES);
   }
+
+  removePeople(i): Observable<People[]> {
+     PEOPLES.splice(i, 1);
+     return of(PEOPLES);
+  }
+
+  updatePeople(data): Observable<People[]> {
+    data.items.forEach(element => {
+      PEOPLES.pop();
+    });
+
+    data.items.forEach(people => {
+      PEOPLES.push(people);
+    });
+    return of(PEOPLES);
+ }
 }
